@@ -1,0 +1,6 @@
+export {default as Navbar} from './navbar/navbar'
+export {default as Cart} from './cart/cart'
+export {default as Login} from './authentication/login'
+export {default as SignUp} from './authentication/register'
+export {default as Main} from './main/main'
+export {default as MainHeader} from './mainHeader/mainHeader'
