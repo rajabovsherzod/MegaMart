@@ -1,7 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import AuthService from "../../service/auth";
+import { signUserSuccess } from "../../slice/authSlice";
+import Toast from "../../ui/toast/toast";
+import { setItem } from "../../helpers/persistance-storage";
 
 const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
+  const dispatch = useDispatch();
+  const [toast, setToast] = useState({
+    show: false,
+    message: "",
+    bgColor: "",
+  });
   const [isAnimating, setIsAnimating] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
@@ -16,20 +27,44 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
 
   const handleClose = () => {
     setIsAnimating(false);
-    setTimeout(onClose, 300); // Wait for animation to complete
+    setTimeout(onClose, 300);
   };
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Handle login logic here
+    const user = { ...formData };
+    try {
+      const response = await AuthService.userLogin(user);
+      if (response?.success && response?.token) {
+        setItem("token", response.token);
+        dispatch(
+          signUserSuccess({
+            user: response.user,
+          })
+        );
+        sessionStorage.setItem("hasLoggedIn", "true");
+        sessionStorage.setItem("currentPath", window.location.pathname);
+        setIsAnimating(false);
+        setTimeout(() => {
+          onClose();
+          window.location.reload();
+        }, 300);
+      }
+    } catch (error) {
+      setToast({
+        show: true,
+        message: response?.error,
+        bgColor: "bg-red-500",
+      });
+    }
+    console.log(user);
   };
 
   if (!isOpen) return null;
-
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity duration-300 flex items-center justify-center">
       <div className="w-full max-w-[90%] sm:max-w-[400px] md:max-w-[440px] relative">
@@ -40,7 +75,6 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
               : "translate-y-full opacity-0"
           }`}
         >
-          {/* Close button */}
           <button
             onClick={handleClose}
             className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 focus:outline-none"
@@ -75,7 +109,7 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
           </div>
 
           {/* Form */}
-          <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
+          <form onSubmit={handleLogin} className="space-y-3 sm:space-y-4">
             {/* Email */}
             <div>
               <label
@@ -154,7 +188,7 @@ const Login = ({ isOpen, onClose, onSwitchToRegister }) => {
                   handleClose();
                   setTimeout(onSwitchToRegister, 300);
                 }}
-                className="font-medium text-primary hover:text-primary-dark focus:outline-none"
+                className="font-medium text-primary hover:text-primary-dark focus:outline-none focus:ring-0"
               >
                 Sign up
               </button>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "../authorization/login";
 import Register from "../authorization/register";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,6 +19,9 @@ const Navbar = () => {
     setIsLoginOpen(true);
   };
 
+  const {isLoggedIn, user} = useSelector((state) => state.auth);
+  console.log(isLoggedIn)
+  console.log(user?.username)
   return (
     <nav className="bg-white shadow-sm">
       <div className="max-w-7xl py-2 mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,7 +68,13 @@ const Navbar = () => {
 
           {/* Desktop menu */}
           <div className="hidden sm:flex items-center space-x-6">
-            <button
+          {isLoggedIn?(
+              <>
+                <p className="font-medium text-textColor">{user?.username}</p>
+              </>
+              
+            ):(
+              <button
               onClick={() => setIsLoginOpen(true)}
               className="flex items-center space-x-2 text-textColor hover:text-primary"
             >
@@ -86,6 +96,7 @@ const Navbar = () => {
                 Sign Up/Sign In
               </span>
             </button>
+            )}
             <Link to="/cart" className="group flex items-center gap-2">
               <p className="font-medium text-textColor">Cart</p>
               <div className="relative">

@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/*": ["src/*"]
+      },
+      "allowJs": true,
+      "checkJs": false,
+      "noEmit": true         // 💡 hech narsa yozmasin
+    },
+    "include": ["src"]
+}
+  

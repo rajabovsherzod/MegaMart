@@ -1,0 +1,131 @@
+{
+  "categories": [
+    {
+      "_id": "1",
+      "name": "Electronics",
+      "description": "All electronic devices and accessories",
+      "slug": "electronics",
+      "level": 0,
+      "parent": null,
+      "path": [],
+      "icon": "electronics-icon.png",
+      "image": "electronics-banner.jpg",
+      "isActive": true,
+      "featuredOrder": 1,
+      "subcategories": [
+        {
+          "_id": "2",
+          "name": "Smartphones",
+          "description": "Mobile phones and accessories",
+          "slug": "smartphones",
+          "level": 1,
+          "parent": "1",
+          "path": ["1"],
+          "icon": "phone-icon.png",
+          "image": "smartphones-banner.jpg",
+          "isActive": true,
+          "featuredOrder": 1,
+          "subcategories": [
+            {
+              "_id": "3",
+              "name": "Phone Cases",
+              "description": "Protective cases for smartphones",
+              "slug": "phone-cases",
+              "level": 2,
+              "parent": "2",
+              "path": ["1", "2"],
+              "icon": "case-icon.png",
+              "image": "cases-banner.jpg",
+              "isActive": true,
+              "featuredOrder": 1
+            },
+            {
+              "_id": "4",
+              "name": "Chargers",
+              "description": "Phone chargers and power banks",
+              "slug": "chargers",
+              "level": 2,
+              "parent": "2",
+              "path": ["1", "2"],
+              "icon": "charger-icon.png",
+              "image": "chargers-banner.jpg",
+              "isActive": true,
+              "featuredOrder": 2
+            }
+          ]
+        },
+        {
+          "_id": "5",
+          "name": "Laptops",
+          "description": "Notebooks and laptop accessories",
+          "slug": "laptops",
+          "level": 1,
+          "parent": "1",
+          "path": ["1"],
+          "icon": "laptop-icon.png",
+          "image": "laptops-banner.jpg",
+          "isActive": true,
+          "featuredOrder": 2,
+          "subcategories": [
+            {
+              "_id": "6",
+              "name": "Gaming Laptops",
+              "description": "High-performance gaming notebooks",
+              "slug": "gaming-laptops",
+              "level": 2,
+              "parent": "5",
+              "path": ["1", "5"],
+              "icon": "gaming-laptop-icon.png",
+              "image": "gaming-laptops-banner.jpg",
+              "isActive": true,
+              "featuredOrder": 1
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "_id": "7",
+      "name": "Fashion",
+      "description": "Clothing and accessories",
+      "slug": "fashion",
+      "level": 0,
+      "parent": null,
+      "path": [],
+      "icon": "fashion-icon.png",
+      "image": "fashion-banner.jpg",
+      "isActive": true,
+      "featuredOrder": 2,
+      "subcategories": [
+        {
+          "_id": "8",
+          "name": "Men's Clothing",
+          "description": "Clothing for men",
+          "slug": "mens-clothing",
+          "level": 1,
+          "parent": "7",
+          "path": ["7"],
+          "icon": "mens-icon.png",
+          "image": "mens-banner.jpg",
+          "isActive": true,
+          "featuredOrder": 1,
+          "subcategories": [
+            {
+              "_id": "9",
+              "name": "T-Shirts",
+              "description": "Men's t-shirts and tops",
+              "slug": "mens-tshirts",
+              "level": 2,
+              "parent": "8",
+              "path": ["7", "8"],
+              "icon": "tshirt-icon.png",
+              "image": "tshirts-banner.jpg",
+              "isActive": true,
+              "featuredOrder": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

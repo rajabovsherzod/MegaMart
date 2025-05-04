@@ -1,75 +1,101 @@
 const mongoose = require("mongoose");
 
+const ReviewSchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: "User",
+    required: true,
+  },
+  rating: {
+    type: Number,
+    required: [true, "Please add a rating between 1 and 5"],
+    min: 1,
+    max: 5,
+  },
+  comment: {
+    type: String,
+    required: [true, "Please add a comment"],
+    maxlength: 500,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
+
 const ProductSchema = new mongoose.Schema({
   name: {
     type: String,
-    required: [true, "Please add a product name"],
+    required: [true, "Please add a name"],
     trim: true,
     maxlength: [100, "Name cannot be more than 100 characters"],
   },
   description: {
     type: String,
     required: [true, "Please add a description"],
-    maxlength: [1000, "Description cannot be more than 1000 characters"],
+    maxlength: [2000, "Description cannot be more than 2000 characters"],
   },
   price: {
     type: Number,
     required: [true, "Please add a price"],
-    min: [0, "Price cannot be negative"],
+    min: [0, "Price must be greater than 0"],
   },
+  images: [
+    {
+      type: String,
+      required: [true, "Please add at least one image"],
+    },
+  ],
   category: {
     type: mongoose.Schema.ObjectId,
     ref: "Category",
-    required: true,
+    required: [true, "Please add a category"],
   },
   seller: {
     type: mongoose.Schema.ObjectId,
     ref: "User",
     required: true,
   },
-  images: [
-    {
-      type: String,
-    },
-  ],
   stock: {
     type: Number,
     required: [true, "Please add stock quantity"],
     min: [0, "Stock cannot be negative"],
-    default: 0,
   },
+  reviews: [ReviewSchema],
   rating: {
     type: Number,
-    min: [1, "Rating must be at least 1"],
-    max: [5, "Rating cannot be more than 5"],
+    min: 0,
+    max: 5,
     default: 0,
   },
   numReviews: {
     type: Number,
     default: 0,
   },
-  reviews: [
+  status: {
+    type: String,
+    enum: ["active", "inactive", "deleted"],
+    default: "active",
+  },
+  discounts: [
     {
-      user: {
-        type: mongoose.Schema.ObjectId,
-        ref: "User",
-        required: true,
-      },
-      name: {
-        type: String,
-        required: true,
-      },
-      rating: {
+      percentage: {
         type: Number,
         required: true,
+        min: 1,
+        max: 100,
       },
-      comment: {
-        type: String,
+      startDate: {
+        type: Date,
         required: true,
       },
-      createdAt: {
+      endDate: {
         type: Date,
-        default: Date.now,
+        required: true,
+      },
+      isActive: {
+        type: Boolean,
+        default: true,
       },
     },
   ],
@@ -77,6 +103,14 @@ const ProductSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+// Update numReviews when reviews are modified
+ProductSchema.pre("save", function (next) {
+  if (this.reviews) {
+    this.numReviews = this.reviews.length;
+  }
+  next();
 });
 
 // Create product slug from the name

@@ -3,15 +3,24 @@ const router = express.Router();
 const { protect, authorize } = require("../middleware/auth");
 const Category = require("../models/Category");
 
-// @desc    Get all categories
+// @desc    Get all categories (tree with subcategories)
 // @route   GET /api/categories
 // @access  Public
 router.get("/", async (req, res) => {
   try {
     const categories = await Category.find();
+    function buildTree(categories, parent = null) {
+      return categories
+        .filter((cat) => String(cat.parent) === String(parent))
+        .map((cat) => ({
+          ...cat.toObject(),
+          children: buildTree(categories, cat._id),
+        }));
+    }
+    const tree = buildTree(categories);
     res.status(200).json({
       success: true,
-      data: categories,
+      data: tree,
     });
   } catch (err) {
     res.status(400).json({

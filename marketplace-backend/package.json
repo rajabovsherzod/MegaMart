@@ -1,23 +1,30 @@
 {
   "name": "marketplace-api",
   "version": "1.0.0",
-  "description": "Marketplace platform API",
+  "description": "MegaMart marketplace backend",
   "main": "src/index.js",
   "scripts": {
     "start": "node src/index.js",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "init-categories": "node src/scripts/initCategories.js",
+    "create-admin": "node src/scripts/createAdmin.js"
   },
   "dependencies": {
-    "express": "^4.18.2",
-    "mongoose": "^7.5.0",
+    "@adminjs/express": "^6.1.0",
+    "@adminjs/mongoose": "^4.0.0",
+    "adminjs": "^7.5.2",
     "bcryptjs": "^2.4.3",
-    "jsonwebtoken": "^9.0.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "express-session": "^1.18.0",
     "express-validator": "^7.0.1",
-    "multer": "^1.4.5-lts.1"
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.1.1",
+    "multer": "^1.4.5-lts.1",
+    "tslib": "^2.5.0"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "nodemon": "^3.0.3"
   }
 }
